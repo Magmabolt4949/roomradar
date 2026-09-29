@@ -4,6 +4,8 @@
 
 At a mixer you walk up to a stranger with no idea who they are, organisers can't tell who has arrived or left, and the one person you most needed to meet leaves before you find them. RoomRadar fixes that with a QR check-in, a live list of who's here right now, ranked "people you should meet" suggestions that explain *why*, and a full-screen badge that helps you find each other across the room.
 
+**▶ [Watch the 90-second demo](docs/RoomRadar_Demo.mp4)**
+
 <p>
   <img src="docs/screenshots/people-to-meet.png" width="230" alt="People to meet, with reasons">
   <img src="docs/screenshots/whos-here.png" width="230" alt="Who's here right now">
