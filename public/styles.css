@@ -1,7 +1,10 @@
 /* RoomRadar — name-badge design system.
    Paper-blue background, deep ink, highlighter yellow for "why you should meet",
    and one badge colour per person so people are easy to spot in the room. */
-@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap');
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 600; font-display: swap; src: url('/fonts/bricolage-grotesque/bricolage-grotesque-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 800; font-display: swap; src: url('/fonts/bricolage-grotesque/bricolage-grotesque-latin-800-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Atkinson Hyperlegible'; font-weight: 400; font-display: swap; src: url('/fonts/atkinson-hyperlegible/atkinson-hyperlegible-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Atkinson Hyperlegible'; font-weight: 700; font-display: swap; src: url('/fonts/atkinson-hyperlegible/atkinson-hyperlegible-latin-700-normal.woff2') format('woff2'); }
 
 :root {
   --paper: #edf1fa;
@@ -95,7 +98,7 @@ textarea { min-height: 76px; resize: vertical; }
 
 /* Full-screen "Spot me" — hold your phone up so people can find you. */
 .spotme {
-  position: fixed; inset: 0; z-index: 50; background: var(--c); color: #fff;
+  position: fixed; inset: 0; z-index: 70; background: var(--c); color: #fff;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center; padding: 24px;
 }

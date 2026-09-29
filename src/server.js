@@ -21,6 +21,10 @@ export function createApp({ dbFile, presenceTimeoutMs, sweepEveryMs } = {}) {
 
   app.use(express.json({ limit: '32kb' }));
   app.use(express.static(path.join(__dirname, '..', 'public'), { extensions: ['html'] }));
+  // Fonts are bundled, not loaded from Google, so the app works on flaky venue Wi-Fi.
+  for (const pkg of ['bricolage-grotesque', 'atkinson-hyperlegible']) {
+    app.use(`/fonts/${pkg}`, express.static(path.join(__dirname, '..', 'node_modules', '@fontsource', pkg, 'files'), { maxAge: '30d', immutable: true }));
+  }
 
   // ---------- helpers ----------
   const clean = (s, max = 120) => (typeof s === 'string' ? s.trim().slice(0, max) : '');

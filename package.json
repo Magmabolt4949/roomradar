@@ -10,9 +10,13 @@
     "seed": "node scripts/seed-demo.js",
     "test": "node --test"
   },
-  "engines": { "node": ">=18.18" },
+  "engines": {
+    "node": ">=18.18"
+  },
   "license": "MIT",
   "dependencies": {
+    "@fontsource/atkinson-hyperlegible": "^5.3.0",
+    "@fontsource/bricolage-grotesque": "^5.3.0",
     "better-sqlite3": "^11.3.0",
     "express": "^4.21.0",
     "nanoid": "^5.0.7",

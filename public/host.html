@@ -61,6 +61,9 @@
     const s = d.stats;
     const maxI = Math.max(1, ...d.topInterests.map((x) => x[1]));
     const maxN = Math.max(1, ...d.topNeeds.map((x) => x[1]));
+    // Keep whatever the organiser is typing: live updates redraw the page.
+    const draft = document.getElementById('ann-text');
+    const draftValue = draft ? draft.value : null, draftFocused = draft && document.activeElement === draft;
     const rows = d.attendees.filter((a) => statusFilter === 'all' || a.status === statusFilter)
       .sort((a, b) => b.checkedInAt - a.checkedInAt);
     view.innerHTML = `
@@ -92,6 +95,8 @@
         ${rows.map((a) => `<tr class="${a.status === 'left' ? 'status-left' : ''}"><td>${esc(a.emoji)} ${esc(a.name)}</td><td>${esc([a.role, a.org].filter(Boolean).join(', '))}</td><td>${a.status === 'present' ? 'Here' : `Left ${ago(a.leftAt)}`}</td><td>${ago(a.checkedInAt)}</td><td>${esc(a.zone || '')}</td><td>${esc(a.interests.join(', '))}</td></tr>`).join('') || '<tr><td colspan="6" class="muted">No one here yet. Put the entrance screen up so people can scan in.</td></tr>'}
         </tbody></table></div>
       </div>`;
+    const annInput = document.getElementById('ann-text');
+    if (draftValue !== null) { annInput.value = draftValue; if (draftFocused) { annInput.focus(); annInput.setSelectionRange(draftValue.length, draftValue.length); } }
     document.getElementById('ann').onsubmit = async (e) => {
       e.preventDefault();
       await api(`/api/host/${id}/announce`, { method: 'POST', hostKey: key, body: { text: document.getElementById('ann-text').value } });
