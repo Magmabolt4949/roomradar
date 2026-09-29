@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1b2340">
+  <title>RoomRadar</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="wrap" id="view" aria-live="polite"><p class="empty">Loading…</p></main>
+  <nav class="tabbar" id="tabs" hidden role="tablist" aria-label="Sections">
+    <button role="tab" data-tab="meet"><span class="ico" aria-hidden="true">✨</span>Meet</button>
+    <button role="tab" data-tab="room"><span class="ico" aria-hidden="true">👥</span>Who's here</button>
+    <button role="tab" data-tab="inbox"><span class="ico" aria-hidden="true">👋</span>Waves<span class="count" id="wave-count" hidden></span></button>
+    <button role="tab" data-tab="me"><span class="ico" aria-hidden="true">🪪</span>My badge</button>
+  </nav>
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="module" src="/event.js"></script>
+</body>
+</html>

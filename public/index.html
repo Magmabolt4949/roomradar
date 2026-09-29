@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>RoomRadar — know who's in the room</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .hero { padding: 28px 0 8px; }
+    .hero p { font-size: 1.15rem; max-width: 34ch; }
+    .sample { display: flex; gap: 10px; margin: 22px 0 28px; flex-wrap: wrap; }
+    .sample .badge { flex: 1 1 180px; margin: 0; }
+    .panel { background: var(--card); border: 2px solid var(--ink); border-radius: var(--radius-badge); padding: 18px; margin-bottom: 16px; }
+    .code-input { font: 800 1.6rem var(--display) !important; letter-spacing: .18em; text-transform: uppercase; text-align: center; }
+    .links input { font-size: .9rem; }
+    .qr { width: 180px; height: 180px; background: #fff; border: 2px solid var(--line); border-radius: 12px; padding: 8px; }
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <section class="hero">
+    <h1>Know who's in the room, and who to talk to first.</h1>
+    <p class="muted">Check in with a QR code, see who's here right now, and get told who to meet and why.</p>
+    <div class="sample" aria-hidden="true">
+      <div class="badge" style="--c:#2A9D8F"><div class="avatar">🚀</div><div class="badge-top"><span class="hello">Hello, I'm</span></div>
+        <div class="badge-body"><p class="name">Aisha</p><p class="role">Founder, fintech</p><ul class="why"><li><mark>Looking for a designer, which you are</mark></li></ul></div></div>
+      <div class="badge" style="--c:#6A4C93"><div class="avatar">🎸</div><div class="badge-top"><span class="hello">Hello, I'm</span></div>
+        <div class="badge-body"><p class="name">Rohan</p><p class="role">ML engineer</p><ul class="why"><li><mark>One of two people here into music tech</mark></li></ul></div></div>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="join-h">
+    <h2 id="join-h">Join an event</h2>
+    <form id="join">
+      <label for="code">Event code <span class="hint">on the poster at the entrance</span></label>
+      <input id="code" class="code-input" type="text" maxlength="6" autocomplete="off" placeholder="K7PQ2M" required>
+      <div id="join-err"></div>
+      <button class="btn full" style="margin-top:14px">Check in</button>
+    </form>
+  </section>
+
+  <section class="panel" aria-labelledby="host-h">
+    <h2 id="host-h">Host an event</h2>
+    <form id="create">
+      <label for="ename">Event name</label>
+      <input id="ename" type="text" maxlength="80" placeholder="Founders' Friday Mixer" required>
+      <label for="venue">Venue <span class="hint">optional</span></label>
+      <input id="venue" type="text" maxlength="80" placeholder="Rooftop, Block B">
+      <label for="zones">Areas of the room <span class="hint">comma separated, so people can say where they are</span></label>
+      <input id="zones" type="text" placeholder="Entrance, Stage, Food counter, Terrace">
+      <div id="create-err"></div>
+      <button class="btn full" style="margin-top:14px">Create event</button>
+    </form>
+    <div id="created" hidden class="stack links"></div>
+  </section>
+</main>
+<script type="module">
+  import { api, esc } from '/common.js';
+  document.getElementById('join').onsubmit = async (e) => {
+    e.preventDefault();
+    const code = document.getElementById('code').value.trim().toUpperCase();
+    const err = document.getElementById('join-err');
+    try { await api(`/api/events/${code}`); location.href = `/e/${code}`; }
+    catch (x) { err.innerHTML = `<div class="error">${esc(x.message)}</div>`; }
+  };
+  document.getElementById('create').onsubmit = async (e) => {
+    e.preventDefault();
+    const err = document.getElementById('create-err');
+    try {
+      const r = await api('/api/events', { method: 'POST', body: {
+        name: document.getElementById('ename').value,
+        venue: document.getElementById('venue').value,
+        zones: document.getElementById('zones').value.split(',').map((s) => s.trim()).filter(Boolean),
+      }});
+      e.target.hidden = true;
+      const out = document.getElementById('created');
+      out.hidden = false;
+      out.innerHTML = `
+        <div class="notice">Event created. Your code is ${esc(r.event.id)}.</div>
+        <img class="qr" src="/api/events/${r.event.id}/qr.svg" alt="QR code that opens the check-in page">
+        <label>Attendee check-in link</label><input readonly value="${esc(r.joinUrl)}" onclick="this.select()">
+        <label>Your organiser dashboard <span class="hint">keep this private: it controls the event</span></label><input readonly value="${esc(r.hostUrl)}" onclick="this.select()">
+        <div class="actions">
+          <a class="btn" href="${esc(r.hostUrl)}">Open dashboard</a>
+          <a class="btn ghost" href="/e/${r.event.id}/screen" target="_blank">Open entrance screen</a>
+        </div>`;
+      localStorage.setItem(`rr-host-${r.event.id}`, r.hostKey);
+    } catch (x) { err.innerHTML = `<div class="error">${esc(x.message)}</div>`; }
+  };
+</script>
+</body>
+</html>

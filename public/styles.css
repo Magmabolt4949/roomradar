@@ -1,0 +1,150 @@
+/* RoomRadar — name-badge design system.
+   Paper-blue background, deep ink, highlighter yellow for "why you should meet",
+   and one badge colour per person so people are easy to spot in the room. */
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap');
+
+:root {
+  --paper: #edf1fa;
+  --card: #ffffff;
+  --ink: #1b2340;
+  --ink-soft: #4b5474;
+  --line: #cbd3e6;
+  --highlight: #ffe45c;
+  --good: #2a9d8f;
+  --radius-badge: 18px;
+  --radius-control: 10px;
+  --display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --body: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+  --tabbar: 68px;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 17px/1.5 var(--body);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+h1, h2, h3 { font-family: var(--display); line-height: 1.1; margin: 0 0 .4em; letter-spacing: -0.01em; }
+h1 { font-size: clamp(2rem, 7vw, 3.4rem); font-weight: 800; }
+h2 { font-size: 1.45rem; font-weight: 800; }
+h3 { font-size: 1.1rem; font-weight: 600; }
+p { margin: 0 0 .8em; }
+a { color: var(--ink); }
+.muted { color: var(--ink-soft); }
+.small { font-size: .88rem; }
+
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+.wrap { max-width: 640px; margin: 0 auto; padding: 20px 18px calc(var(--tabbar) + 24px); }
+.wrap.wide { max-width: 1120px; }
+
+/* ---------- controls ---------- */
+label { display: block; font-weight: 700; margin: 14px 0 6px; }
+.hint { font-weight: 400; color: var(--ink-soft); font-size: .88rem; }
+input[type=text], input[type=search], textarea, select {
+  width: 100%; font: inherit; color: var(--ink); background: var(--card);
+  border: 2px solid var(--line); border-radius: var(--radius-control); padding: 11px 13px;
+}
+input:focus, textarea:focus, select:focus { border-color: var(--ink); outline: none; }
+textarea { min-height: 76px; resize: vertical; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font: 700 1rem var(--body); border: 2px solid var(--ink); border-radius: 999px;
+  padding: 11px 20px; background: var(--ink); color: #fff; cursor: pointer; text-decoration: none;
+}
+.btn.ghost { background: transparent; color: var(--ink); }
+.btn.small { padding: 7px 14px; font-size: .9rem; }
+.btn.full { width: 100%; }
+.btn:disabled { opacity: .5; cursor: default; }
+.btn.done { background: var(--good); border-color: var(--good); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font: inherit; font-size: .92rem; border: 2px solid var(--line); background: var(--card);
+  color: var(--ink); border-radius: 999px; padding: 6px 12px; cursor: pointer;
+}
+.chip[aria-pressed=true] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.chip.static { cursor: default; }
+
+.error { background: #fde8ea; border: 2px solid #e63946; border-radius: var(--radius-control); padding: 10px 12px; margin: 12px 0; }
+.notice { background: var(--highlight); border-radius: var(--radius-control); padding: 10px 14px; margin: 0 0 16px; font-weight: 700; }
+
+/* ---------- the badge: the one memorable element ---------- */
+.badge {
+  position: relative; background: var(--card); border-radius: var(--radius-badge);
+  border: 2px solid var(--ink); overflow: hidden; margin: 0 0 14px;
+}
+.badge-top { background: var(--c, var(--ink)); color: #fff; padding: 10px 16px 8px 70px; min-height: 44px; }
+.badge-top .hello { font: 800 1rem var(--display); }
+.badge-body { padding: 24px 16px 16px; }
+.avatar {
+  position: absolute; left: 14px; top: 12px; width: 48px; height: 48px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 26px; background: #fff; border: 3px solid var(--c, var(--ink));
+}
+.badge .name { font: 800 1.35rem var(--display); margin: 0; }
+.badge .role { color: var(--ink-soft); margin: 0 0 8px; }
+.why { margin: 8px 0 0; padding: 0; list-style: none; }
+.why li { margin: 4px 0; }
+.why mark { background: linear-gradient(transparent 38%, var(--highlight) 38%, var(--highlight) 88%, transparent 88%); color: inherit; padding: 0 2px; }
+.opener { border-left: 4px solid var(--c, var(--ink)); padding: 4px 0 4px 12px; margin: 10px 0; font-style: italic; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .9rem; color: var(--ink-soft); margin: 6px 0; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+/* Full-screen "Spot me" — hold your phone up so people can find you. */
+.spotme {
+  position: fixed; inset: 0; z-index: 50; background: var(--c); color: #fff;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 24px;
+}
+.spotme .big-emoji { font-size: min(34vw, 180px); line-height: 1; }
+.spotme .big-name { font: 800 clamp(2.4rem, 12vw, 5.5rem) var(--display); margin: .1em 0; }
+.spotme .wearing { font-size: 1.25rem; max-width: 28ch; }
+.spotme .close { position: absolute; top: 16px; right: 16px; background: #fff; color: var(--ink); border-color: #fff; }
+
+/* ---------- lists ---------- */
+.row {
+  display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: center;
+  background: var(--card); border: 2px solid var(--line); border-left: 8px solid var(--c, var(--line));
+  border-radius: 12px; padding: 10px 12px; margin: 0 0 8px;
+}
+.row .dot { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-size: 21px; background: var(--paper); }
+.row .who { min-width: 0; }
+.row .who strong { display: block; }
+.row .who span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; color: var(--ink-soft); font-size: .88rem; }
+.pill { font-size: .78rem; font-weight: 700; border-radius: 999px; padding: 3px 9px; background: var(--paper); white-space: nowrap; }
+.pill.hot { background: var(--highlight); }
+
+/* ---------- tab bar ---------- */
+.tabbar {
+  position: fixed; left: 0; right: 0; bottom: 0; height: calc(var(--tabbar) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px); background: var(--card); border-top: 2px solid var(--ink);
+  display: grid; grid-template-columns: repeat(4, 1fr); z-index: 20;
+}
+.tabbar button {
+  background: none; border: 0; font: 700 .82rem var(--body); color: var(--ink-soft);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer; position: relative;
+}
+.tabbar button .ico { font-size: 1.35rem; }
+.tabbar button[aria-selected=true] { color: var(--ink); }
+.tabbar button[aria-selected=true]::after { content: ''; position: absolute; top: 0; left: 25%; right: 25%; height: 4px; background: var(--ink); border-radius: 0 0 4px 4px; }
+.count { position: absolute; top: 8px; right: calc(50% - 26px); background: #e63946; color: #fff; border-radius: 999px; font-size: .72rem; padding: 1px 6px; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.live { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; }
+.live::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--good); box-shadow: 0 0 0 0 rgba(42,157,143,.6); animation: pulse 2s infinite; }
+@keyframes pulse { 70% { box-shadow: 0 0 0 10px rgba(42,157,143,0); } 100% { box-shadow: 0 0 0 0 rgba(42,157,143,0); } }
+
+.toast {
+  position: fixed; left: 50%; bottom: calc(var(--tabbar) + 16px); transform: translateX(-50%);
+  background: var(--ink); color: #fff; border-radius: 14px; padding: 12px 16px; z-index: 60;
+  max-width: min(92vw, 460px); box-shadow: 0 8px 24px rgba(27,35,64,.25);
+}
+.toast button { margin-left: 10px; }
+
+.empty { text-align: center; padding: 36px 12px; color: var(--ink-soft); }
+.stack > * + * { margin-top: 14px; }
+.grid2 { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+@media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; } }
